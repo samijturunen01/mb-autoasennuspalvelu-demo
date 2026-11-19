@@ -28,7 +28,7 @@ export const callouts: {
   balloon: [number, number]
   side: Side
 }[] = [
-  { no: '01', label: 'Määräaikaishuolto', to: '/palvelut/maaraaikaishuolto', anchor: [1760, 300], balloon: [1640, -95], side: 'right' },
+  { no: '01', label: 'Määräaikaishuolto', to: '/palvelut/maaraaikaishuolto', anchor: [1760, 300], balloon: [1575, -95], side: 'right' },
   { no: '02', label: 'Vianhaku ja sähkö', to: '/palvelut/vianhaku-ja-korjaukset', anchor: [2105, 445], balloon: [2400, -95], side: 'left' },
   {
     no: '03',

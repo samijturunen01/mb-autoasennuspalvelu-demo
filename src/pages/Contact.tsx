@@ -90,13 +90,19 @@ export function Contact() {
 
       {/* Booking */}
       <section id="huoltoaika" className="surface-paper" aria-labelledby="booking-title">
-        <div className="container-x grid gap-12 py-20 lg:grid-cols-12 lg:py-24">
-          <div className="lg:col-span-4">
+        <div className="container-x grid gap-10 py-20 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-12 lg:gap-y-8 lg:py-24">
+          {/* DOM order = phone order (heading, form, steps); desktop puts heading + steps in the left column */}
+          <div className="lg:col-span-4 lg:row-start-1">
             <p className="eyebrow text-[#8a5a00]">Huoltoaikapyyntö</p>
             <h2 id="booking-title" className="display mt-4 text-[clamp(2.4rem,1.6rem+3vw,4rem)]">
               Kolme kohtaa, ja pyyntö on valmis.
             </h2>
-            <ol className="mt-8 m-0 list-none space-y-6 p-0">
+          </div>
+          <div className="lg:col-span-8 lg:col-start-5 lg:row-span-2 lg:row-start-1">
+            <BookingForm />
+          </div>
+          <div className="lg:col-span-4 lg:row-start-2 lg:self-start">
+            <ol className="m-0 list-none space-y-6 p-0">
               {steps.map((s, i) => (
                 <li key={s.t} className="grid grid-cols-[2.6rem_1fr] gap-4">
                   <span className="balloon">{i + 1}</span>
@@ -117,9 +123,6 @@ export function Contact() {
                 <Phone size={17} aria-hidden="true" className="text-lamp" /> Soita {company.phone.display}
               </a>
             </div>
-          </div>
-          <div className="lg:col-span-8">
-            <BookingForm />
           </div>
         </div>
       </section>

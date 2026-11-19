@@ -14,8 +14,8 @@ export function Hero() {
         className="pointer-events-none absolute -right-40 top-1/3 h-[620px] w-[900px] rounded-full opacity-60"
         style={{ background: 'radial-gradient(closest-side, rgb(242 176 53 / 0.1), transparent)' }}
       />
-      <div className="container-x relative grid items-center gap-10 pb-14 pt-10 sm:pt-14 lg:grid-cols-12 lg:gap-8 lg:pb-20 lg:pt-16 xl:pt-20">
-        <div className="lg:col-span-5">
+      <div className="container-x relative grid items-center gap-10 pb-14 pt-10 sm:pt-14 lg:pb-20 lg:pt-16 xl:grid-cols-12 xl:gap-8 xl:pt-20">
+        <div className="max-w-3xl xl:col-span-5">
           <p className="eyebrow flex items-center gap-3 text-lamp">
             <span aria-hidden="true" className="h-px w-8 bg-lamp" />
             {company.tagline} · Joensuu
@@ -45,7 +45,7 @@ export function Hero() {
               Soita <span className="tabular">{company.phone.display}</span>
             </a>
           </div>
-          <ul className="mt-9 grid gap-x-6 gap-y-3 border-t border-line pt-6 text-[0.92rem] text-fog sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+          <ul className="mt-9 grid gap-x-6 gap-y-3 border-t border-line pt-6 text-[0.92rem] text-fog sm:grid-cols-3">
             <li className="flex items-start gap-2.5">
               <Wrench size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-lamp" />
               <span>
@@ -67,7 +67,7 @@ export function Hero() {
           </ul>
         </div>
 
-        <div className="lg:col-span-7 lg:pl-4">
+        <div className="w-full lg:mx-auto lg:max-w-[880px] xl:col-span-7 xl:max-w-none xl:pl-4">
           <p className="mono mb-3 flex items-center justify-between text-[0.7rem] uppercase tracking-[0.14em] text-fog">
             <span>Kuva 01 · Huoltokohteet</span>
             <span className="hidden sm:inline">Valitse kohde</span>

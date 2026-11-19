@@ -96,7 +96,7 @@ export function Header() {
           <a
             href={company.phone.href}
             onClick={() => track('phone_click', { location: 'header' })}
-            className="inline-flex min-h-11 items-center gap-2 px-2 font-[600] text-white tabular hover:text-lamp"
+            className="hidden min-h-11 items-center gap-2 whitespace-nowrap px-2 font-[600] text-white tabular hover:text-lamp xl:inline-flex"
           >
             <Phone size={17} aria-hidden="true" className="text-lamp" />
             {company.phone.display}
