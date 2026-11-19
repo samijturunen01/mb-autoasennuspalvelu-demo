@@ -79,7 +79,7 @@ export function HeroStage() {
     const setScan = (p: number) => {
       const x = SCAN_FROM + p * (SCAN_TO - SCAN_FROM)
       carEl.style.clipPath = p >= 1 ? 'none' : `inset(0 ${100 - x}% 0 0)`
-      scanEl.style.left = `${x}%`
+      scanEl.style.transform = `translateX(${x}%)`
     }
     // Take over the CSS-held pre-intro state with inline styles, then release the hold.
     setScan(0)
@@ -109,8 +109,8 @@ export function HeroStage() {
       tl.kill()
       root.dataset.intro = 'done'
       carEl.style.clipPath = ''
-      scanEl.style.left = ''
-      gsap.set([...glows, ...leaders, ...dots, ...balloons, scanEl], { clearProps: 'all' })
+      gsap.set([...glows, ...leaders, ...dots, ...balloons], { clearProps: 'all' })
+      gsap.set(scanEl, { opacity: 0 })
     }
   }, [])
 
@@ -162,17 +162,21 @@ export function HeroStage() {
         </svg>
 
         {/* Diagnostic scan line */}
+        {/* Full-width carrier moved with transform (no layout shift); the 2px line sits on its left edge. */}
         <div
           ref={scan}
           aria-hidden="true"
-          className="hero-scan pointer-events-none absolute bottom-[8%] top-[6%] w-[2px] -translate-x-1/2"
-          style={{
-            left: `${SCAN_TO}%`,
-            opacity: 0,
-            background: 'linear-gradient(to bottom, transparent, #ffc95c 20%, #f2b035 80%, transparent)',
-            boxShadow: '0 0 18px 4px rgb(242 176 53 / 0.45)',
-          }}
-        />
+          className="hero-scan pointer-events-none absolute inset-x-0 bottom-[8%] top-[6%]"
+          style={{ transform: `translateX(${SCAN_TO}%)`, opacity: 0 }}
+        >
+          <span
+            className="absolute left-0 top-0 h-full w-[2px] -translate-x-1/2"
+            style={{
+              background: 'linear-gradient(to bottom, transparent, #ffc95c 20%, #f2b035 80%, transparent)',
+              boxShadow: '0 0 18px 4px rgb(242 176 53 / 0.45)',
+            }}
+          />
+        </div>
 
         {/* Callout leaders */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox={`${VB.x} ${VB.y} ${VB.w} ${VB.h}`} aria-hidden="true">

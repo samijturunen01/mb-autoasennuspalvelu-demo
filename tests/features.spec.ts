@@ -115,7 +115,7 @@ test('service plate follows hover and every row is a real link', async ({ page }
   await expect(plate.locator('p.display').last()).toHaveText('Pakettiautot')
   await plate.getByRole('link', { name: /Sähkö- ja hybridiautot/ }).click()
   await expect(page).toHaveURL(/palvelut\/sahko-ja-hybridiautot\/?$/)
-  expect(await page.evaluate(() => window.scrollY)).toBe(0)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
 })
 
 test('FAQ answers open and close', async ({ page }) => {

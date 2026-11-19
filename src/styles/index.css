@@ -25,10 +25,21 @@
   --color-lamp-2: #ffc95c;
 
   --font-sans: 'Archivo Variable', 'Archivo', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Archivo Variable', 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Archivo Variable', 'Archivo Display Fallback', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Metric-matched fallback for the condensed display face: while Archivo loads, headings wrap
+   like the final font, so the swap does not shift the layout (CLS). */
+@font-face {
+  font-family: 'Archivo Display Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Helvetica'), local('Roboto'), local('DejaVu Sans');
+  size-adjust: 76%;
+  ascent-override: 118%;
+  descent-override: 28%;
+  line-gap-override: 0%;
 }
 
 @layer base {
@@ -54,7 +65,7 @@
   h2,
   h3,
   h4 {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     text-wrap: balance;
     margin: 0;
   }

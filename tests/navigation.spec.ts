@@ -38,7 +38,7 @@ test('navigation menu opens the destination page at the very top', async ({ page
   await nav.getByRole('link', { name: /Pakettiautot/ }).click()
   await expect(page).toHaveURL(/pakettiautot\/?$/)
   await expect(page.locator('h1')).toContainText('pakettiautojen')
-  expect(await page.evaluate(() => window.scrollY)).toBe(0)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
 })
 
 test('booking CTA lands on the form section with the topic preselected', async ({ page }) => {
@@ -116,7 +116,7 @@ test('mobile menu opens, closes with Escape and navigates', async ({ page }) => 
   await menu.getByRole('link', { name: /Palvelut/ }).first().click()
   await expect(page).toHaveURL(/palvelut\/?$/)
   await expect(menu).toBeHidden()
-  expect(await page.evaluate(() => window.scrollY)).toBe(0)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
 })
 
 test('mobile action bar offers call and booking', async ({ page }) => {
