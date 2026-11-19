@@ -31,7 +31,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
+      # Runner images already ship Chromium system libraries; fall back to a plain install if apt mirrors are down.
+      - run: npx playwright install --with-deps chromium || npx playwright install chromium
       - run: npm test
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
