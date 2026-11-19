@@ -142,7 +142,7 @@ export function Header() {
           aria-label="Valikko"
           className="plate-grid fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-ink lg:hidden"
         >
-          <nav aria-label="Päävalikko" className="container-x pb-10 pt-6">
+          <nav aria-label="Mobiilivalikko" className="container-x pb-10 pt-6">
             <ul className="border-t border-line">
               {mainNav.map((item, i) => (
                 <li key={item.to} className="border-b border-line">

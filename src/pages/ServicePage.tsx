@@ -102,7 +102,7 @@ export function ServicePage({ id }: { id: ServiceId }) {
           </h2>
           <ol className="mt-12 grid list-none gap-px overflow-hidden rounded-[26px] border border-line bg-line p-0 md:grid-cols-2">
             {s.items.map((it, i) => (
-              <li key={it.id} id={it.id} className="scroll-mt-28 bg-ink p-7 sm:p-8" data-reveal style={{ '--d': `${(i % 2) * 70}ms` } as React.CSSProperties}>
+              <li key={it.id} id={it.id} className="bg-ink p-7 sm:p-8" data-reveal style={{ '--d': `${(i % 2) * 70}ms` } as React.CSSProperties}>
                 <div className="flex items-start gap-5">
                   <span className="mono pt-1.5 text-[0.8rem] text-lamp">
                     {s.no}.{i + 1}
@@ -157,7 +157,7 @@ export function ServicePage({ id }: { id: ServiceId }) {
           <div className="lg:col-span-4">
             <p className="eyebrow text-[#8a5a00]">Usein kysyttyä</p>
             <h2 id="sfaq-title" className="display mt-4 text-[clamp(2.2rem,1.5rem+2.6vw,3.5rem)]">
-              Kysymyksiä: {s.label.toLowerCase()}
+              Kysymyksiä ja vastauksia
             </h2>
           </div>
           <div className="lg:col-span-8">

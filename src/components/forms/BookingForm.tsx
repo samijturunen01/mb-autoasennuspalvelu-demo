@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AlertCircle, ArrowRight, CheckCircle2, Info, Phone } from 'lucide-react'
 import { PlateInput } from './PlateInput'
@@ -31,9 +31,10 @@ export function BookingForm() {
   const [touched, setTouched] = useState(false)
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
   const [message, setMessage] = useState('')
+  const [attempt, setAttempt] = useState(0)
   const started = useRef(false)
-  const summaryRef = useRef<HTMLDivElement>(null)
-  const doneRef = useRef<HTMLDivElement>(null)
+  /** Moves focus to an element when it mounts (error summary per submit attempt, success panel). */
+  const focusOnMount = useCallback((el: HTMLElement | null) => el?.focus(), [])
 
   // Preselect topics from the URL (after hydration so prerendered HTML and client agree).
   const aihe = params.get('aihe')
@@ -67,7 +68,7 @@ export function BookingForm() {
     setErrors(errs)
     if (Object.keys(errs).length) {
       track('form_validation_error', { form: 'huoltoaika', fields: Object.keys(errs).join(',') })
-      requestAnimationFrame(() => summaryRef.current?.focus())
+      setAttempt((a) => a + 1)
       return
     }
     setStatus('sending')
@@ -77,7 +78,6 @@ export function BookingForm() {
       setStatus('done')
       track('form_submit_success', { form: 'huoltoaika', demo: res.demo, topics: data.topics.join(',') })
       if (data.plate) track('plate_entered', { form: 'huoltoaika' })
-      requestAnimationFrame(() => doneRef.current?.focus())
     } catch {
       setStatus('error')
     }
@@ -106,7 +106,7 @@ export function BookingForm() {
   if (status === 'done') {
     return (
       <div
-        ref={doneRef}
+        ref={focusOnMount}
         tabIndex={-1}
         role="status"
         className="rounded-[26px] border border-paper-line bg-white p-7 outline-none sm:p-10"
@@ -142,7 +142,8 @@ export function BookingForm() {
 
       {errorIds.length > 0 && (
         <div
-          ref={summaryRef}
+          key={attempt}
+          ref={focusOnMount}
           tabIndex={-1}
           role="alert"
           className="mt-6 rounded-2xl border-2 border-[#b42318] bg-[#fdf2f1] p-5 outline-none"

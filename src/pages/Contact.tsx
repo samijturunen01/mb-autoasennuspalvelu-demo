@@ -24,8 +24,8 @@ export function Contact() {
 
       {/* Contact tiles */}
       <section className="surface-ink border-b border-line" aria-label="Yhteystiedot">
-        <div className="container-x -mt-6 pb-16 lg:-mt-10 lg:pb-20">
-          <div className="grid gap-px overflow-hidden rounded-[26px] border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
+        <div className="container-x pb-16 lg:pb-20">
+          <div className="grid gap-px overflow-hidden rounded-[26px] border border-line bg-line md:grid-cols-2 lg:grid-cols-[1fr_1fr_1.35fr_1.15fr]">
             {company.people.map((p) => (
               <a
                 key={p.id}
@@ -47,7 +47,7 @@ export function Contact() {
               <span className="flex items-center gap-2 text-fog">
                 <Mail size={17} aria-hidden="true" className="text-lamp" /> Sähköposti
               </span>
-              <span className="break-all text-[1.15rem] font-[650] text-white group-hover:text-lamp">{company.email}</span>
+              <span className="text-[1.08rem] font-[650] text-white [overflow-wrap:anywhere] group-hover:text-lamp">{company.email}</span>
             </a>
             <a
               href={company.maps.directions}
@@ -89,7 +89,7 @@ export function Contact() {
       </section>
 
       {/* Booking */}
-      <section id="huoltoaika" className="surface-paper scroll-mt-20" aria-labelledby="booking-title">
+      <section id="huoltoaika" className="surface-paper" aria-labelledby="booking-title">
         <div className="container-x grid gap-12 py-20 lg:grid-cols-12 lg:py-24">
           <div className="lg:col-span-4">
             <p className="eyebrow text-[#8a5a00]">Huoltoaikapyyntö</p>

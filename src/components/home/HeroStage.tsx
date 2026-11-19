@@ -65,8 +65,10 @@ export function HeroStage() {
     if (!root || !car.current || !scan.current) return
     if (!introAllowed()) {
       releaseIntroHold()
+      root.dataset.intro = 'skipped'
       return
     }
+    root.dataset.intro = 'playing'
     const carEl = car.current
     const scanEl = scan.current
     const glows = root.querySelectorAll<HTMLElement>('.hero-glow')
@@ -89,7 +91,12 @@ export function HeroStage() {
     releaseIntroHold()
 
     const state = { p: 0 }
-    const tl = gsap.timeline({ delay: 0.15 })
+    const tl = gsap.timeline({
+      delay: 0.15,
+      onComplete: () => {
+        root.dataset.intro = 'done'
+      },
+    })
     tl.to(scanEl, { opacity: 1, duration: 0.15 })
       .to(state, { p: 1, duration: 1.15, ease: 'power2.inOut', onUpdate: () => setScan(state.p) }, '<')
       .to(scanEl, { opacity: 0, duration: 0.3 }, '-=0.15')
@@ -100,6 +107,7 @@ export function HeroStage() {
 
     return () => {
       tl.kill()
+      root.dataset.intro = 'done'
       carEl.style.clipPath = ''
       scanEl.style.left = ''
       gsap.set([...glows, ...leaders, ...dots, ...balloons, scanEl], { clearProps: 'all' })
@@ -108,7 +116,7 @@ export function HeroStage() {
 
   return (
     <figure className="relative m-0">
-      <div ref={stage} className="relative w-full" style={{ aspectRatio: `${VB.w} / ${VB.h}` }}>
+      <div ref={stage} className="hero-stage relative w-full" style={{ aspectRatio: `${VB.w} / ${VB.h}` }}>
         {/* Corner crop marks of the plate */}
         <span aria-hidden="true" className="absolute left-0 top-0 h-4 w-4 border-l border-t border-line-2" />
         <span aria-hidden="true" className="absolute right-0 top-0 h-4 w-4 border-r border-t border-line-2" />
@@ -188,23 +196,17 @@ export function HeroStage() {
         {/* Callout balloons – real links to the services */}
         <ul className="m-0 list-none p-0">
           {callouts.map((c) => (
-            <li
-              key={c.no}
-              className="hero-balloon absolute z-10 -translate-x-1/2 -translate-y-1/2"
-              style={{ left: px(c.balloon[0]), top: py(c.balloon[1]) }}
-            >
+            // The <li> sits exactly on the leader end; the link is offset so the number circle is centred on it.
+            <li key={c.no} className="hero-balloon absolute z-10 h-0 w-0" style={{ left: px(c.balloon[0]), top: py(c.balloon[1]) }}>
               <Link
                 to={c.to}
                 onClick={() => track('callout_click', { callout: c.no })}
-                className={`group flex items-center gap-2 ${c.side === 'left' ? 'flex-row-reverse' : ''}`}
-                aria-label={`${c.no} ${c.label}`}
+                className={`group absolute top-0 flex -translate-y-1/2 items-center gap-2 ${
+                  c.side === 'left' ? 'right-0 translate-x-[1.05rem] flex-row-reverse' : 'left-0 -translate-x-[1.05rem]'
+                }`}
               >
-                <span className="balloon transition-colors group-hover:bg-lamp group-hover:text-ink">{c.no}</span>
-                <span
-                  className={`hidden whitespace-nowrap rounded-full border border-line bg-ink/85 px-3 py-1 text-[0.86rem] font-[600] text-white backdrop-blur-sm transition-colors group-hover:border-lamp sm:inline-block ${
-                    c.side === 'left' ? 'mr-[-0.25rem]' : 'ml-[-0.25rem]'
-                  }`}
-                >
+                <span className="balloon transition-colors group-hover:bg-lamp group-hover:text-ink">{c.no}</span>{' '}
+                <span className="sr-only transition-colors sm:not-sr-only sm:inline-block sm:whitespace-nowrap sm:rounded-full sm:border sm:border-line sm:bg-ink/85 sm:px-3 sm:py-1 sm:text-[0.86rem] sm:font-[600] sm:text-white sm:backdrop-blur-sm sm:group-hover:border-lamp">
                   {c.label}
                 </span>
               </Link>
