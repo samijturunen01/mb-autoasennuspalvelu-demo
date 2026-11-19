@@ -12,6 +12,9 @@ export function Header() {
   const location = useLocation()
   const panelRef = useRef<HTMLDivElement>(null)
   const toggleRef = useRef<HTMLButtonElement>(null)
+  const headerRef = useRef<HTMLElement>(null)
+  // The menu panel starts exactly under the header (which sits below the demo bar at the page top).
+  const [menuTop, setMenuTop] = useState(64)
 
   // Close the menu whenever the route changes.
   const [lastPath, setLastPath] = useState(location.pathname)
@@ -63,6 +66,7 @@ export function Header() {
 
   return (
     <header
+      ref={headerRef}
       className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
         scrolled ? 'border-line bg-ink/92 backdrop-blur-md' : 'border-transparent bg-ink'
       }`}
@@ -125,7 +129,10 @@ export function Header() {
             className="inline-flex h-11 items-center gap-2 rounded-full border border-line-2 px-4 font-[600] text-white"
             aria-expanded={open}
             aria-controls="mobile-menu"
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => {
+              if (!open) setMenuTop(Math.max(0, Math.round(headerRef.current?.getBoundingClientRect().bottom ?? 64)))
+              setOpen((v) => !v)
+            }}
           >
             {open ? <X size={19} aria-hidden="true" /> : <Menu size={19} aria-hidden="true" />}
             <span>{open ? 'Sulje' : 'Valikko'}</span>
@@ -140,7 +147,8 @@ export function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Valikko"
-          className="plate-grid fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-ink lg:hidden"
+          className="plate-grid fixed inset-x-0 bottom-0 z-40 overflow-y-auto border-t border-line bg-ink lg:hidden"
+          style={{ top: menuTop }}
         >
           <nav aria-label="Mobiilivalikko" className="container-x pb-10 pt-6">
             <ul className="border-t border-line">

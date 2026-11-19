@@ -112,6 +112,12 @@ test('mobile menu opens, closes with Escape and navigates', async ({ page }) => 
   await page.keyboard.press('Escape')
   await expect(menu).toBeHidden()
   await expect(toggle).toBeFocused()
+  // The close button stays visible and usable above the open menu (touch users).
+  await toggle.click()
+  const close = page.getByRole('button', { name: 'Sulje' })
+  await expect(close).toBeVisible()
+  await close.click()
+  await expect(menu).toBeHidden()
   await toggle.click()
   await menu.getByRole('link', { name: /Palvelut/ }).first().click()
   await expect(page).toHaveURL(/palvelut\/?$/)
