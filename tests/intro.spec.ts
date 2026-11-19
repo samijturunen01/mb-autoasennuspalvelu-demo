@@ -51,7 +51,8 @@ test('intro does not replay on browser back to the homepage', async ({ page }) =
   await nav.getByRole('link', { name: /Palvelut/ }).click()
   await expect(page).toHaveURL(/palvelut\/?$/)
   await page.goBack()
-  await expect.poll(() => introState(page)).toBe('skipped')
+  // "skipped" (SPA back) or "done" (restored from the back/forward cache) – never a replay.
+  await expect.poll(() => introState(page)).toMatch(/^(skipped|done)$/)
   expect(await carClip(page)).toBe('none')
 })
 
