@@ -47,7 +47,7 @@ test('booking CTA lands on the form section with the topic preselected', async (
   await page.getByRole('link', { name: /Varaa vianhaku/ }).first().click()
   await expect(page).toHaveURL(/yhteystiedot\?aihe=vianhaku#huoltoaika$/)
   await expect
-    .poll(() => page.evaluate(() => Math.round(document.getElementById('huoltoaika')!.getBoundingClientRect().top)), { timeout: 4000 })
+    .poll(() => page.evaluate(() => Math.round(document.getElementById('huoltoaika')?.getBoundingClientRect().top ?? 9999)), { timeout: 4000 })
     .toBeLessThan(160)
   await expect(page.getByRole('checkbox', { name: 'Vikavalo / vianhaku' })).toBeChecked()
 })
@@ -72,7 +72,7 @@ test('anchor links land on their section', async ({ page }) => {
   await page.goto(url('palvelut/lammittimet-ja-asennukset/#lohkolammitin'))
   await ready(page)
   await expect
-    .poll(() => page.evaluate(() => Math.round(document.getElementById('lohkolammitin')!.getBoundingClientRect().top)))
+    .poll(() => page.evaluate(() => Math.round(document.getElementById('lohkolammitin')?.getBoundingClientRect().top ?? 9999)))
     .toBeLessThan(160)
 })
 

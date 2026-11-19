@@ -102,7 +102,7 @@ test('hero callouts link to the matching service sections', async ({ page }) => 
   await page.locator('.hero-balloon').filter({ hasText: '03' }).getByRole('link').click()
   await expect(page).toHaveURL(/palvelut\/vianhaku-ja-korjaukset\/?#jarrut$/)
   await expect
-    .poll(() => page.evaluate(() => Math.round(document.getElementById('jarrut')!.getBoundingClientRect().top)))
+    .poll(() => page.evaluate(() => Math.round(document.getElementById('jarrut')?.getBoundingClientRect().top ?? 9999)))
     .toBeLessThan(160)
 })
 
